@@ -13,12 +13,15 @@ class SelfParser(SGMLParser):
         self.title_flag = False
         self.room_flag = False
         self.add_flag = False
+        self.district_flag = False
+        self.position_flag = False
         self.geren_flag = False
         self.sendTime_flag = False
         self.money_flag = False
+        self.pager_flag = False
         self.data = []
         self.model = None
-        self.location = ''
+        self.next_url = None
         SGMLParser.__init__(self)
 
     def start_li(self, attrs):
@@ -35,8 +38,9 @@ class SelfParser(SGMLParser):
 
     def end_li(self):
         self.start_flag = False
-        self.data.append(self.model)
-        self.model = None
+        if self.model and self.model.price:
+            self.data.append(self.model)
+            self.model = None
 
     def start_div(self, attrs):
         for key, value in attrs:
@@ -49,20 +53,36 @@ class SelfParser(SGMLParser):
             if key == 'class' and value == 'money':
                 if self.start_flag:
                     self.money_flag = True
+            if key == 'class' and value == 'pager':
+                self.pager_flag = True
 
     def end_div(self):
         self.des_div_flag = False
         self.sendTime_flag = False
         self.money_flag = False
+        self.pager_flag = False
 
     def start_a(self, attrs):
+        keys = []
+        next_page_flag = False
         for key, value in attrs:
             if key == 'tongji_label':
                 if self.des_div_flag:
                     self.title_flag = True
+            if key == 'class' and value == 'next' and self.pager_flag:
+                next_page_flag = True
+            if next_page_flag and key == 'href':
+                self.next_url = value
+            keys.append(key)
+        if self.add_flag and 'target' in keys:
+            self.district_flag = True
+        if self.add_flag and 'target' not in keys:
+            self.position_flag = True
 
     def end_a(self):
         self.title_flag = False
+        self.district_flag = False
+        self.position_flag = False
 
     def start_p(self, attrs):
         for key, value in attrs:
@@ -92,10 +112,15 @@ class SelfParser(SGMLParser):
                     self.model.hire_type = 3
                 self.model.title = data.strip().split('|')[-1].strip()
             if self.room_flag:
-                self.model.size = data.strip().split()[-1].replace('&nbsp;', '').split('m')[0]
-                self.model.abstract_size = data.strip().split()[0]
-            if self.add_flag:
-                self.location += data
+                data = data.split('&nbsp;')[0]
+                if data.find('㎡') != -1:
+                    self.model.size = data.split('&nbsp;')[-1].strip()
+                else:
+                    self.model.abstract_size = data.split('&nbsp;')[0].strip()
+            if self.district_flag:
+                self.model.district = data.strip()
+            if self.position_flag:
+                self.model.position = data.strip()
             if self.geren_flag:
                 if data.find('个人房源') != -1:
                     self.model.source_type = 0
@@ -108,16 +133,8 @@ class SelfParser(SGMLParser):
                     self.model.price = data.strip()
 
     def work(self):
-        print self.data[0].source_web
-        print self.data[0].hire_type
-        print self.data[0].title
-        print self.data[0].abstract_size
-        print self.data[0].size
-        print self.data[0].district
-        print self.data[0].position
-        print self.data[0].source_type
-        print self.data[0].price
-        return self.data
+        # print self.data[0].source_web, self.data[0].hire_type, self.data[0].title, self.data[0].abstract_size, self.data[0].size, self.data[0].district, self.data[0].position, self.data[0].source_type, self.data[0].price
+        return self.next_url, self.data
 
 
 def spider_one_page(url):
@@ -129,20 +146,29 @@ def spider_one_page(url):
     with open('../temp/58.html', 'r') as f:
         for line in f.readlines():
             parser.feed(line)
-    data = parser.work()
 
-    try:
-        next_url = r.text.split('<a  class="next" href="')[-1].split('"><span>')[0]
-    except Exception:
-        next_url = None
-    return next_url, data
+    return parser.work()
 
 
-def spider_58():
-    url = 'http://sz.58.com/chuzu/0/'
-    nexl_url, data = spider_one_page(url)
-    print nexl_url
-
+def spider_58(url, total_data):
+    print url
+    next_url, data = spider_one_page(url)
+    total_data.extend(data)
+    if len(total_data) < 5000:
+        if next_url:
+            spider_58(next_url, total_data)
 
 if __name__ == '__main__':
-    spider_58()
+    data_58 = []
+    spider_58('http://sz.58.com/chuzu/0/', data_58)
+    for item in data_58:
+        with open('../report/58.source', 'a+') as f:
+            f.write(str(item.source_web) + ' ' +
+                    str(item.hire_type) + ' ' +
+                    str(item.title) + ' ' +
+                    str(item.abstract_size) + ' ' +
+                    str(item.size) + ' ' +
+                    str(item.district) + ' ' +
+                    str(item.position) + ' ' +
+                    str(item.source_type) + ' ' +
+                    str(item.price) + '\r\n')
