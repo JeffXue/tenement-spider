@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import datetime
 
+from report import generate_report
 from spiders.spider58 import spider_58
 
 
@@ -26,24 +27,28 @@ def csv_data(source_web, district, data):
 
 
 def main():
-    target_58_configs = [('http://sz.58.com/chuzu/0/', '不限'),
-                         ('http://sz.58.com/luohu/chuzu/0/', '罗湖'),
-                         ('http://sz.58.com/futian/chuzu/0/', '福田'),
-                         ('http://sz.58.com/nanshan/chuzu/0/', '南山'),
-                         ('http://sz.58.com/yantian/chuzu/0/', '盐田'),
-                         ('http://sz.58.com/baoan/chuzu/0/', '宝安'),
-                         ('http://sz.58.com/longgang/chuzu/0/', '龙岗'),
-                         ('http://sz.58.com/buji/chuzu/0/', '布吉'),
-                         ('http://sz.58.com/pingshanxinqu/chuzu/0/', '坪山新区'),
-                         ('http://sz.58.com/guangmingxinqu/chuzu/0/', '光明新区'),
-                         ('http://sz.58.com/szlhxq/chuzu/0/', '龙华新区'),
-                         ('http://sz.58.com/dapengxq/chuzu/0/', '大鹏新区')]
+    # target_58_configs = [('http://sz.58.com/chuzu/0/', '不限'),
+    #                      ('http://sz.58.com/luohu/chuzu/0/', '罗湖'),
+    #                      ('http://sz.58.com/futian/chuzu/0/', '福田'),
+    #                      ('http://sz.58.com/nanshan/chuzu/0/', '南山'),
+    #                      ('http://sz.58.com/yantian/chuzu/0/', '盐田'),
+    #                      ('http://sz.58.com/baoan/chuzu/0/', '宝安'),
+    #                      ('http://sz.58.com/longgang/chuzu/0/', '龙岗'),
+    #                      ('http://sz.58.com/buji/chuzu/0/', '布吉'),
+    #                      ('http://sz.58.com/pingshanxinqu/chuzu/0/', '坪山新区'),
+    #                      ('http://sz.58.com/guangmingxinqu/chuzu/0/', '光明新区'),
+    #                      ('http://sz.58.com/szlhxq/chuzu/0/', '龙华新区'),
+    #                      ('http://sz.58.com/dapengxq/chuzu/0/', '大鹏新区')]
+
+    target_58_configs = [('http://sz.58.com/dapengxq/chuzu/0/', '大鹏新区')]
+
     for config in target_58_configs:
         url = config[0]
         district = config[1]
         data = []
         spider_58(url, data)
         csv_data('58', district, data)
+        generate_report(data, district, '58')
 
 if __name__ == '__main__':
     main()

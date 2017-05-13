@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <body>
+    <div align="center">
+        <h1 align="center"><a href="https://github.com/JeffXue/tenement-spider" target="github">租房数据分析</a></h1>
+        <table class="bordered">
+            <tr>
+                <th><strong>区域</strong></th>
+                <th><strong>采样数量</strong></th>
+                <th><strong>采样时间</strong></th>
+            </tr>
+            <tr>
+                <td><strong>{{ district }}</strong></td>
+                <td><strong>{{ total }}</strong></td>
+                <td><strong>{{ date }}</strong></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <td>
+                    <div id="hireTypeChart" style="height:400px"></div>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <td>
+                    <div id="priceChart" style="height:400px"></div>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+    </div>
+
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+    <script type="text/javascript">
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        require(
+            [
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/chart/scatter'
+            ],
+            function (ec, theme) {
+                var hireTypeChart = ec.init(document.getElementById('hireTypeChart'), theme);
+
+                var hireTypeOption = {
+                    title: {
+                        text: '租房类型占比',
+                        subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['租房类型']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: false},
+                            dataView: {show: false, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: false},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['整租', '单间', '床位']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'PV',
+                            type: 'line',
+                            data: [{{ hire_type_count['entire_percentile'] }}, {{ hire_type_count['single_percentile'] }}, {{ hire_type_count['bed_percentile'] }}],
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+                hireTypeChart.setOption(hireTypeOption);
+
+
+
+                var priceChart = ec.init(document.getElementById('priceChart'), theme);
+
+                var priceOption = {
+                    title: {
+                        text: '租房价格占比',
+                        subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['价格']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: false},
+                            dataView: {show: false, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: false},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['<=1.5k', '1.5k~2.5', '2.5k~3.5', '3.5k~4.5', '4.5k~5.5', '5.5k~6.5', '6.5k~7.5', '7.5k~8.5', '8.5k~9.5', '>9.5']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'PV',
+                            type: 'line',
+                            data: [{{ price_count['r1_percentile'] }}, {{ price_count['r2_percentile'] }}, {{ price_count['r3_percentile'] }}, {{ price_count['r4_percentile'] }}, {{ price_count['r5_percentile'] }}, {{ price_count['r6_percentile'] }}, {{ price_count['r7_percentile'] }}, {{ price_count['r8_percentile'] }}, {{ price_count['r9_percentile'] }}, {{ price_count['r10_percentile'] }}],
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+                priceChart.setOption(priceOption);
+
+            }
+        );
+    </script>
+
+
+    </body>
+{% endblock %}
