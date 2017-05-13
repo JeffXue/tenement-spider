@@ -16,6 +16,9 @@ class Model:
         # 原文章标题
         self.title = None
 
+        # 原文章URL
+        self.url = None
+
         # 抽象大小
         self.abstract_size = None
 
