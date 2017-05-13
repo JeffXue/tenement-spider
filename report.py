@@ -48,34 +48,34 @@ def generate_report(data, district, source_web):
                 size = int(item.size.replace('㎡', ''))
                 if size <= 10:
                     size_price_maps['r1']['count'] += 1
-                    size_price_maps['r1']['prices'].append(item.price)
+                    size_price_maps['r1']['prices'].append(int(item.price))
                 if 10 < size <= 20:
                     size_price_maps['r2']['count'] += 1
-                    size_price_maps['r2']['prices'].append(item.price)
+                    size_price_maps['r2']['prices'].append(int(item.price))
                 if 20 < size <= 30:
                     size_price_maps['r3']['count'] += 1
-                    size_price_maps['r3']['prices'].append(item.price)
+                    size_price_maps['r3']['prices'].append(int(item.price))
                 if 30 < size <= 40:
                     size_price_maps['r4']['count'] += 1
-                    size_price_maps['r4']['prices'].append(item.price)
+                    size_price_maps['r4']['prices'].append(int(item.price))
                 if 40 < size <= 50:
                     size_price_maps['r5']['count'] += 1
-                    size_price_maps['r5']['prices'].append(item.price)
+                    size_price_maps['r5']['prices'].append(int(item.price))
                 if 50 < size <= 60:
                     size_price_maps['r6']['count'] += 1
-                    size_price_maps['r6']['prices'].append(item.price)
+                    size_price_maps['r6']['prices'].append(int(item.price))
                 if 60 < size <= 70:
                     size_price_maps['r7']['count'] += 1
-                    size_price_maps['r7']['prices'].append(item.price)
+                    size_price_maps['r7']['prices'].append(int(item.price))
                 if 70 < size <= 80:
                     size_price_maps['r8']['count'] += 1
-                    size_price_maps['r8']['prices'].append(item.price)
+                    size_price_maps['r8']['prices'].append(int(item.price))
                 if 80 < size <= 90:
                     size_price_maps['r9']['count'] += 1
-                    size_price_maps['r9']['prices'].append(item.price)
+                    size_price_maps['r9']['prices'].append(int(item.price))
                 if 90 < size:
                     size_price_maps['r10']['count'] += 1
-                    size_price_maps['r10']['prices'].append(item.price)
+                    size_price_maps['r10']['prices'].append(int(item.price))
             except Exception:
                 pass
 
@@ -107,19 +107,19 @@ def generate_report(data, district, source_web):
         if item.hire_type == 2:
             if item.abstract_size.find('1室') != -1:
                 hire_type_price_map['r1']['count'] += 1
-                hire_type_price_map['r1']['prices'].append(item.price)
+                hire_type_price_map['r1']['prices'].append(int(item.price))
             elif item.abstract_size.find('2室') != -1:
                 hire_type_price_map['r2']['count'] += 1
-                hire_type_price_map['r2']['prices'].append(item.price)
+                hire_type_price_map['r2']['prices'].append(int(item.price))
             elif item.abstract_size.find('3室') != -1:
                 hire_type_price_map['r3']['count'] += 1
-                hire_type_price_map['r3']['prices'].append(item.price)
+                hire_type_price_map['r3']['prices'].append(int(item.price))
             elif item.abstract_size.find('4室') != -1:
                 hire_type_price_map['r4']['count'] += 1
-                hire_type_price_map['r4']['prices'].append(item.price)
+                hire_type_price_map['r4']['prices'].append(int(item.price))
             else:
                 hire_type_price_map['r5']['count'] += 1
-                hire_type_price_map['r5']['prices'].append(item.price)
+                hire_type_price_map['r5']['prices'].append(int(item.price))
 
     hire_type_count_total = hire_type_count['single'] + hire_type_count['entire'] + hire_type_count['bed']
     hire_type_count['single_percentile'] = '%0.3f' % float(hire_type_count['single'] * 100 / hire_type_count_total)
@@ -139,17 +139,21 @@ def generate_report(data, district, source_web):
     price_count['r9_percentile'] = '%0.3f' % float(price_count['r9'] * 100 / price_count_total)
     price_count['r10_percentile'] = '%0.3f' % float(price_count['r10'] * 100 / price_count_total)
 
+    print price_count
+
     for key, value in size_price_maps.iteritems():
-        size_price_maps[key]['avg'] = int(average(value['prices']))
-        size_price_maps[key]['p5'] = int(percentile(value['prices'], 90))
-        size_price_maps[key]['p9'] = int(percentile(value['prices'], 90))
-        size_price_maps[key]['variance'] = int(var(value['prices']))
+        if value['prices']:
+            size_price_maps[key]['avg'] = int(average(value['prices']))
+            size_price_maps[key]['p5'] = int(percentile(value['prices'], 90))
+            size_price_maps[key]['p9'] = int(percentile(value['prices'], 90))
+            size_price_maps[key]['variance'] = int(var(value['prices']))
 
     for key, value in hire_type_price_map.iteritems():
-        hire_type_price_map[key]['avg'] = int(average(value['prices']))
-        hire_type_price_map[key]['p5'] = int(percentile(value['prices'], 90))
-        hire_type_price_map[key]['p9'] = int(percentile(value['prices'], 90))
-        hire_type_price_map[key]['variance'] = int(var(value['prices']))
+        if value['prices']:
+            hire_type_price_map[key]['avg'] = int(average(value['prices']))
+            hire_type_price_map[key]['p5'] = int(percentile(value['prices'], 90))
+            hire_type_price_map[key]['p9'] = int(percentile(value['prices'], 90))
+            hire_type_price_map[key]['variance'] = int(var(value['prices']))
 
     date = datetime.datetime.now().date()
     html = report_template.render(total=total, district=district, date=date,
