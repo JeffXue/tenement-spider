@@ -158,14 +158,14 @@ def generate_report(data, district, source_web):
     for key, value in size_price_maps.iteritems():
         if key != 'total_size_price' and value['prices']:
             size_price_maps[key]['avg'] = int(average(value['prices']))
-            size_price_maps[key]['p5'] = int(percentile(value['prices'], 90))
+            size_price_maps[key]['p5'] = int(percentile(value['prices'], 50))
             size_price_maps[key]['p9'] = int(percentile(value['prices'], 90))
             size_price_maps[key]['variance'] = int(var(value['prices']))
 
     for key, value in hire_type_price_map.iteritems():
         if value['prices']:
             hire_type_price_map[key]['avg'] = int(average(value['prices']))
-            hire_type_price_map[key]['p5'] = int(percentile(value['prices'], 90))
+            hire_type_price_map[key]['p5'] = int(percentile(value['prices'], 50))
             hire_type_price_map[key]['p9'] = int(percentile(value['prices'], 90))
             hire_type_price_map[key]['variance'] = int(var(value['prices']))
 
