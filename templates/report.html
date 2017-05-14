@@ -22,7 +22,11 @@
         <table class="bordered">
             <tr>
                 <td>
-                    <div id="hireTypeChart" style="height:400px"></div>
+                    <div id="hireTypeChart" style="height:400px;width: 670px"></div>
+                </td>
+
+                <td>
+                    <div id="priceChart" style="height:400px;width: 670px"></div>
                 </td>
             </tr>
         </table>
@@ -31,13 +35,108 @@
 
         <table class="bordered">
             <tr>
-                <td>
-                    <div id="priceChart" style="height:400px"></div>
-                </td>
+                <th rowspan="2"><strong>房间数量（整租）</strong></th>
+                <th colspan="4"><strong>价格</strong></th>
             </tr>
+            <tr>
+                <th><strong>均值</strong></th>
+                <th><strong>90%</strong></th>
+                <th><strong>中值</strong></th>
+                <th><strong>方差</strong></th>
+            </tr>
+            {% for key in ['r1', 'r2', 'r3', 'r4', 'r5'] %}
+                <tr>
+                    <td><strong>
+                        {% if key == 'r1' %}
+                            1室
+                        {% endif %}
+                        {% if key == 'r2' %}
+                            2室
+                        {% endif %}
+                        {% if key == 'r3' %}
+                            3室
+                        {% endif %}
+                        {% if key == 'r4' %}
+                            4室
+                        {% endif %}
+                        {% if key == 'r5' %}
+                            其他
+                        {% endif %}
+                    </strong></td>
+                    <td><strong>{{ hire_type_price_map[key]['avg'] }}</strong></td>
+                    <td><strong>{{ hire_type_price_map[key]['p9'] }}</strong></td>
+                    <td><strong>{{ hire_type_price_map[key]['p5'] }}</strong></td>
+                    <td><strong>{{ hire_type_price_map[key]['variance'] }}</strong></td>
+                </tr>
+            {% endfor %}
         </table>
 
         <br>
+
+        <table class="bordered">
+            <tr>
+                <th rowspan="2"><strong>面积</strong></th>
+                <th colspan="4"><strong>价格</strong></th>
+            </tr>
+            <tr>
+                <th><strong>均值</strong></th>
+                <th><strong>90%</strong></th>
+                <th><strong>中值</strong></th>
+                <th><strong>方差</strong></th>
+            </tr>
+            {% for key in ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r10'] %}
+                <tr>
+                    <td><strong>
+                        {% if key == 'r1' %}
+                            小于10㎡
+                        {% endif %}
+                        {% if key == 'r2' %}
+                            10~20㎡
+                        {% endif %}
+                        {% if key == 'r3' %}
+                            20~30㎡
+                        {% endif %}
+                        {% if key == 'r4' %}
+                            30~40㎡
+                        {% endif %}
+                        {% if key == 'r5' %}
+                            40~50㎡
+                        {% endif %}
+                        {% if key == 'r6' %}
+                            50~60㎡
+                        {% endif %}
+                        {% if key == 'r7' %}
+                            60~70㎡
+                        {% endif %}
+                        {% if key == 'r8' %}
+                            70㎡~80㎡
+                        {% endif %}
+                        {% if key == 'r9' %}
+                            80~90㎡
+                        {% endif %}
+                        {% if key == 'r10' %}
+                            大于90㎡
+                        {% endif %}
+                    </strong></td>
+                    <td><strong>{{ size_price_maps[key]['avg'] }}</strong></td>
+                    <td><strong>{{ size_price_maps[key]['p9'] }}</strong></td>
+                    <td><strong>{{ size_price_maps[key]['p5'] }}</strong></td>
+                    <td><strong>{{ size_price_maps[key]['variance'] }}</strong></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <td>
+                    <div id="sizePriceChart" style="height:600px"></div>
+                </td>
+            </tr>
+        </table>
+        <br>
+
     </div>
 
     <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
@@ -93,13 +192,13 @@
                         {
                             type: 'value',
                             axisLabel: {
-                                formatter: '{value}'
+                                formatter: '{value}%'
                             }
                         }
                     ],
                     series: [
                         {
-                            name: 'PV',
+                            name: '占比',
                             type: 'line',
                             data: [{{ hire_type_count['entire_percentile'] }}, {{ hire_type_count['single_percentile'] }}, {{ hire_type_count['bed_percentile'] }}],
                             markPoint: {
@@ -117,7 +216,6 @@
                     ]
                 };
                 hireTypeChart.setOption(hireTypeOption);
-
 
 
                 var priceChart = ec.init(document.getElementById('priceChart'), theme);
@@ -155,13 +253,13 @@
                         {
                             type: 'value',
                             axisLabel: {
-                                formatter: '{value}'
+                                formatter: '{value}%'
                             }
                         }
                     ],
                     series: [
                         {
-                            name: 'PV',
+                            name: '占比',
                             type: 'line',
                             data: [{{ price_count['r1_percentile'] }}, {{ price_count['r2_percentile'] }}, {{ price_count['r3_percentile'] }}, {{ price_count['r4_percentile'] }}, {{ price_count['r5_percentile'] }}, {{ price_count['r6_percentile'] }}, {{ price_count['r7_percentile'] }}, {{ price_count['r8_percentile'] }}, {{ price_count['r9_percentile'] }}, {{ price_count['r10_percentile'] }}],
                             markPoint: {
@@ -180,6 +278,76 @@
                 };
                 priceChart.setOption(priceOption);
 
+
+                var sizePriceChart = ec.init(document.getElementById('sizePriceChart'), theme);
+                var sizePriceOption = {
+                    title: {
+                        text: '面积与价格分布图',
+                        subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            show: true,
+                            type: 'cross',
+                            lineStyle: {
+                                type: 'dashed',
+                                width: 1
+                            }
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: false},
+                            dataView: {show: false, readOnly: false},
+                            restore: {show: false},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    dataZoom: {
+                        show: true
+                    },
+                    legend: {
+                        data: ['价格']
+                    },
+                    xAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value} ㎡'
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '￥ {value}'
+                            }
+                        }
+                    ],
+                    animation: false,
+                    series: [
+                        {
+                            name: '价格',
+                            type: 'scatter',
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    lineStyle: {
+                                        type: 'dashed',
+                                        width: 1
+                                    }
+                                }
+                            },
+                            symbolSize: 10,
+                            data: [{% for item in size_price_maps['total_size_price'] %}[{{ item[0] }}, {{ item[1] }}],{% endfor %}],
+                        }
+                    ]
+                };
+                sizePriceChart.setOption(sizePriceOption);
             }
         );
     </script>

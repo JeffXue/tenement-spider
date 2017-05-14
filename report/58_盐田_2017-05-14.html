@@ -1,0 +1,686 @@
+<html>
+
+
+<style type="text/css">
+body {
+    width: 1400px;
+    margin: 40px auto;
+    font-family: 'trebuchet MS', 'Lucida sans', Arial;
+    font-size: 14px;
+    color: #444;
+}
+
+table {
+    *border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+    width: 100%;
+
+}
+
+.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc;
+    -moz-box-shadow: 0 1px 1px #ccc;
+    box-shadow: 0 1px 1px #ccc;
+}
+
+.bordered tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.bordered td, .bordered th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.bordered th {
+    background-color: #dce9f9;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+.bordered td:first-child, .bordered th:first-child {
+    border-left: none;
+}
+
+.bordered th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+.bordered th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+.bordered th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+
+.bordered tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}
+</style>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>盐田-2017-05-14</title>
+</head>
+
+
+
+    <body>
+    <div align="center">
+        <h1 align="center"><a href="https://github.com/JeffXue/tenement-spider" target="github">租房数据分析</a></h1>
+        <table class="bordered">
+            <tr>
+                <th><strong>区域</strong></th>
+                <th><strong>采样数量</strong></th>
+                <th><strong>采样时间</strong></th>
+            </tr>
+            <tr>
+                <td><strong>盐田</strong></td>
+                <td><strong>246</strong></td>
+                <td><strong>2017-05-14</strong></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <td>
+                    <div id="hireTypeChart" style="height:400px;width: 670px"></div>
+                </td>
+
+                <td>
+                    <div id="priceChart" style="height:400px;width: 670px"></div>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <th rowspan="2"><strong>房间数量（整租）</strong></th>
+                <th colspan="4"><strong>价格</strong></th>
+            </tr>
+            <tr>
+                <th><strong>均值</strong></th>
+                <th><strong>90%</strong></th>
+                <th><strong>中值</strong></th>
+                <th><strong>方差</strong></th>
+            </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                            1室
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>1791</strong></td>
+                    <td><strong>2800</strong></td>
+                    <td><strong>2800</strong></td>
+                    <td><strong>710879</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                            2室
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>3469</strong></td>
+                    <td><strong>4500</strong></td>
+                    <td><strong>4500</strong></td>
+                    <td><strong>778388</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                            3室
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>4522</strong></td>
+                    <td><strong>5650</strong></td>
+                    <td><strong>5650</strong></td>
+                    <td><strong>6685402</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                            4室
+                        
+                        
+                    </strong></td>
+                    <td><strong>9083</strong></td>
+                    <td><strong>18000</strong></td>
+                    <td><strong>18000</strong></td>
+                    <td><strong>39951388</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                            其他
+                        
+                    </strong></td>
+                    <td><strong>14250</strong></td>
+                    <td><strong>14850</strong></td>
+                    <td><strong>14850</strong></td>
+                    <td><strong>562500</strong></td>
+                </tr>
+            
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <th rowspan="2"><strong>面积</strong></th>
+                <th colspan="4"><strong>价格</strong></th>
+            </tr>
+            <tr>
+                <th><strong>均值</strong></th>
+                <th><strong>90%</strong></th>
+                <th><strong>中值</strong></th>
+                <th><strong>方差</strong></th>
+            </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                            小于10㎡
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>856</strong></td>
+                    <td><strong>1170</strong></td>
+                    <td><strong>1170</strong></td>
+                    <td><strong>44905</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                            10~20㎡
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>925</strong></td>
+                    <td><strong>1300</strong></td>
+                    <td><strong>1300</strong></td>
+                    <td><strong>90459</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                            20~30㎡
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>1361</strong></td>
+                    <td><strong>1990</strong></td>
+                    <td><strong>1990</strong></td>
+                    <td><strong>269043</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                            30~40㎡
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>1951</strong></td>
+                    <td><strong>2570</strong></td>
+                    <td><strong>2570</strong></td>
+                    <td><strong>598577</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                            40~50㎡
+                        
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>1919</strong></td>
+                    <td><strong>3150</strong></td>
+                    <td><strong>3150</strong></td>
+                    <td><strong>1024707</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                        
+                            50~60㎡
+                        
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>2188</strong></td>
+                    <td><strong>3340</strong></td>
+                    <td><strong>3340</strong></td>
+                    <td><strong>1371693</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            60~70㎡
+                        
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>0</strong></td>
+                    <td><strong>0</strong></td>
+                    <td><strong>0</strong></td>
+                    <td><strong>0</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            70㎡~80㎡
+                        
+                        
+                        
+                    </strong></td>
+                    <td><strong>3425</strong></td>
+                    <td><strong>4350</strong></td>
+                    <td><strong>4350</strong></td>
+                    <td><strong>931875</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            80~90㎡
+                        
+                        
+                    </strong></td>
+                    <td><strong>3527</strong></td>
+                    <td><strong>4620</strong></td>
+                    <td><strong>4620</strong></td>
+                    <td><strong>2438209</strong></td>
+                </tr>
+            
+                <tr>
+                    <td><strong>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            大于90㎡
+                        
+                    </strong></td>
+                    <td><strong>6355</strong></td>
+                    <td><strong>15300</strong></td>
+                    <td><strong>15300</strong></td>
+                    <td><strong>24675391</strong></td>
+                </tr>
+            
+        </table>
+
+        <br>
+
+        <table class="bordered">
+            <tr>
+                <td>
+                    <div id="sizePriceChart" style="height:600px"></div>
+                </td>
+            </tr>
+        </table>
+        <br>
+
+    </div>
+
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+    <script type="text/javascript">
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        require(
+            [
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/chart/scatter'
+            ],
+            function (ec, theme) {
+                var hireTypeChart = ec.init(document.getElementById('hireTypeChart'), theme);
+
+                var hireTypeOption = {
+                    title: {
+                        text: '租房类型占比',
+                        subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['租房类型']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: false},
+                            dataView: {show: false, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: false},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['整租', '单间', '床位']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '占比',
+                            type: 'line',
+                            data: [72.000, 27.000, 0.000],
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+                hireTypeChart.setOption(hireTypeOption);
+
+
+                var priceChart = ec.init(document.getElementById('priceChart'), theme);
+
+                var priceOption = {
+                    title: {
+                        text: '租房价格占比',
+                        subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['价格']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: false},
+                            dataView: {show: false, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: false},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['<=1.5k', '1.5k~2.5', '2.5k~3.5', '3.5k~4.5', '4.5k~5.5', '5.5k~6.5', '6.5k~7.5', '7.5k~8.5', '8.5k~9.5', '>9.5']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '占比',
+                            type: 'line',
+                            data: [41, 14, 19, 16, 3, 0, 1, 0, 0, 2],
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+                priceChart.setOption(priceOption);
+
+
+                var sizePriceChart = ec.init(document.getElementById('sizePriceChart'), theme);
+                var sizePriceOption = {
+                    title: {
+                        text: '面积与价格分布图',
+                        subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            show: true,
+                            type: 'cross',
+                            lineStyle: {
+                                type: 'dashed',
+                                width: 1
+                            }
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: false},
+                            dataView: {show: false, readOnly: false},
+                            restore: {show: false},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    dataZoom: {
+                        show: true
+                    },
+                    legend: {
+                        data: ['价格']
+                    },
+                    xAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value} ㎡'
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '￥ {value}'
+                            }
+                        }
+                    ],
+                    animation: false,
+                    series: [
+                        {
+                            name: '价格',
+                            type: 'scatter',
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    lineStyle: {
+                                        type: 'dashed',
+                                        width: 1
+                                    }
+                                }
+                            },
+                            symbolSize: 10,
+                            data: [[25, 850],[60, 2600],[46, 2600],[80, 4500],[31, 2400],[67, 300],[37, 3200],[68, 4800],[66, 3700],[81, 3300],[77, 3600],[48, 2600],[28, 2200],[50, 2500],[86, 4500],[71, 3200],[84, 4500],[80, 5800],[60, 1050],[30, 1900],[20, 1300],[15, 1300],[15, 850],[15, 1500],[20, 850],[12, 850],[40, 800],[68, 3300],[70, 1500],[19, 1000],[34, 2200],[22, 600],[8, 900],[52, 3300],[20, 1000],[80, 3200],[15, 1100],[66, 4300],[41, 2400],[44, 2800],[48, 3500],[18, 800],[90, 4500],[87, 1300],[34, 2500],[91, 3300],[20, 680],[70, 850],[37, 2000],[45, 4000],[65, 3200],[72, 3200],[20, 600],[11, 850],[12, 1000],[10, 900],[42, 1000],[10, 800],[35, 730],[10, 1200],[28, 1700],[42, 1700],[80, 2800],[45, 2200],[10, 900],[30, 2200],[25, 850],[80, 3300],[45, 1300],[12, 800],[46, 700],[46, 600],[60, 1200],[90, 950],[89, 5000],[88, 1000],[90, 4500],[30, 1500],[20, 1300],[80, 3300],[85, 800],[45, 700],[37, 2400],[66, 3800],[50, 3000],[39, 1000],[45, 900],[25, 900],[45, 1200],[72, 4200],[30, 750],[20, 900],[20, 450],[45, 750],[25, 850],[15, 550],[40, 600],[88, 4000],[10, 500],[66, 4500],[57, 4500],[30, 1000],[38, 700],[60, 900],[15, 900],[45, 1200],[15, 1100],[40, 2500],[40, 1000],[10, 1300],[75, 3200],[75, 3200],[90, 1200],[20, 400],[89, 4000],[90, 4200],[92, 4200],[20, 1500],[25, 800],[50, 3000],[55, 2600],[53, 2800],[65, 5000],[40, 1300],[88, 4200],[60, 800],[84, 4000],[80, 900],[36, 1500],[82, 3800],[39, 2400],[14, 550],[14, 450],[89, 4800],[75, 4000],[46, 600],[43, 3000],[42, 1000],[27, 1800],[45, 700],[36, 2300],[89, 4200],[46, 2000],[67, 3300],[75, 3200],[43, 1800],[40, 2000],[28, 1800],[39, 2500],[39, 2500],[55, 2700],[94, 5500],[12, 1700],[17, 1000],[56, 3500],[89, 4500],[34, 2300],[38, 3200],[26, 1800],[43, 2000],[46, 3000],[49, 900],[15, 800],[83, 3200],[27, 1500],[25, 1500],[42, 880],[1, 730],[10, 800],[10, 900],[10, 700],[55, 2700],[20, 1100],[80, 3200],[88, 2900],[40, 2600],[47, 2300],[47, 2300],[60, 600],[52, 3300],[43, 700],[43, 1600],[15, 850],[67, 3500],[66, 3300],[48, 2600],[20, 950],[58, 3300],[10, 650],[86, 7500],[20, 850],[20, 800],[90, 3200],[85, 900],[60, 3000],[81, 3800],[50, 3500],[16, 850],[40, 2200],[43, 4000],[60, 660],[52, 1180],[82, 4500],[60, 900],[48, 1400],],
+                        }
+                    ]
+                };
+                sizePriceChart.setOption(sizePriceOption);
+            }
+        );
+    </script>
+
+
+    </body>
+
+
+
+
+</html>
